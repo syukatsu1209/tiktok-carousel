@@ -1,0 +1,21 @@
+name: サイトを更新
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: post
+  cancel-in-progress: false
+
+jobs:
+  site:
+    uses: ./.github/workflows/_deploy-site.yml
+    secrets: inherit

@@ -1,0 +1,10 @@
+node_modules/
+carousel/out/
+carousel/posts/
+carousel/bg/dusk.png
+carousel/bg/day.png
+_site/
+__pycache__/
+carousel/bg/night.png
+carousel/bg/mine.png
+carousel/bg/credits.txt

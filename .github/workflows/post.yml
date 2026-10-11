@@ -1,0 +1,149 @@
+name: ① 投稿を作って下書きに送る
+
+on:
+  push:
+    branches: [main]
+    paths: ['carousel/specs/*.json']
+  workflow_dispatch:
+    inputs:
+      post_id:
+        description: '作り直す投稿のID（例: 2026-10-13）。空欄なら一番新しいもの'
+        required: false
+      send_to_tiktok:
+        description: 'TikTokの下書きに送る'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: post
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      post_id: ${{ steps.pick.outputs.post_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: どの投稿を作るか決める
+        id: pick
+        run: |
+          ID="${{ github.event.inputs.post_id }}"
+          if [ -z "$ID" ] && [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            ID=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- carousel/specs/ | grep '\.json$' | sort | tail -1 | xargs -r basename | sed 's/\.json$//')
+          fi
+          if [ -z "$ID" ]; then ID=$(ls carousel/specs/*.json | sort | tail -1 | xargs basename | sed 's/\.json$//'); fi
+          echo "post_id=$ID" >> "$GITHUB_OUTPUT"
+          echo "投稿ID: $ID"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 必要なものを入れる（フォント・ブラウザ）
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-color-emoji > /dev/null
+          pip install -q playwright pillow numpy
+          python -m playwright install --with-deps chromium > /dev/null
+          cd carousel && npm ci --silent
+
+      - name: 背景写真を用意してスモークをかける
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: cd carousel && python bg_fetch.py "${{ steps.pick.outputs.post_id }}"
+
+      - name: スライドを作る（1080×1440）
+        run: cd carousel && python compose.py "specs/${{ steps.pick.outputs.post_id }}.json" --render
+
+      - name: 公開用に JPEG へ変換してサイトに入れる
+        run: |
+          ID="${{ steps.pick.outputs.post_id }}"
+          mkdir -p _site && cp -r docs/. _site/
+          echo "window.TIKTOK_CLIENT_KEY='${{ secrets.TIKTOK_CLIENT_KEY }}';" > _site/config.js
+          python - "$ID" <<'EOF'
+          import sys, pathlib
+          from PIL import Image
+          pid = sys.argv[1]
+          src = sorted(pathlib.Path(f'carousel/out/{pid}').glob('slide_*.png'))
+          dst = pathlib.Path(f'_site/media/{pid}'); dst.mkdir(parents=True, exist_ok=True)
+          for i, p in enumerate(src, 1):
+              im = Image.open(p).convert('RGB')
+              assert im.size == (1080, 1440), (p, im.size)
+              im.save(dst / f'{i:02d}.jpg', 'JPEG', quality=92, optimize=True)
+          print(f'{len(src)}枚を書き出しました')
+          EOF
+          cp carousel/out/$ID/caption.txt carousel/out/$ID/sources.md _site/media/$ID/ 2>/dev/null || true
+
+      - name: 画像をダウンロードできるように保存
+        uses: actions/upload-artifact@v4
+        with:
+          name: slides-${{ steps.pick.outputs.post_id }}
+          path: |
+            _site/media/${{ steps.pick.outputs.post_id }}/
+          retention-days: 30
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  draft:
+    needs: [build, deploy]
+    if: github.event_name == 'push' || github.event.inputs.send_to_tiktok == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main   # 最新のトークンを使うため
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -q cryptography
+
+      - name: 投稿データを作り直す（下書き送信用）
+        run: |
+          cd carousel && python compose.py "specs/${{ needs.build.outputs.post_id }}.json"
+
+      - name: TikTokの下書きに送る
+        id: send
+        env:
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+        run: |
+          if [ -z "$TIKTOK_CLIENT_SECRET" ] || [ ! -f tiktok/token.enc ]; then
+            echo "::notice::TikTokとの連携がまだなので、画像だけ作りました（Actions の成果物からダウンロードできます）"
+            exit 0
+          fi
+          cd tiktok && python post_draft.py "${{ needs.build.outputs.post_id }}" "${{ needs.deploy.outputs.page_url }}media/"
+
+      - name: 結果を記録する
+        if: always()
+        run: |
+          git config user.name "carousel-bot"
+          git config user.email "carousel-bot@users.noreply.github.com"
+          git add status/ tiktok/token.enc 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "status: ${{ needs.build.outputs.post_id }}"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done

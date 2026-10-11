@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Policy</title>
+<style>
+  :root{--ink:#14204a;--muted:#4b5468;--bg:#f5f7fb;--card:#fff}
+  @media (prefers-color-scheme:dark){:root{--ink:#e8ecf7;--muted:#b3bacb;--bg:#10131b;--card:#1a1f2b}}
+  body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);padding:16px}
+  main{max-width:720px;margin:32px auto;background:var(--card);border-radius:20px;padding:32px 24px}
+  h1{margin-top:0}h2{font-size:18px;margin-top:28px}p,li{color:var(--muted);line-height:1.8}
+</style>
+</head>
+<body>
+<main>
+<h1>プライバシーポリシー / Privacy Policy</h1>
+<p>最終更新日 / Last updated: 2026-10-12</p>
+
+<h2>1. 本ツールについて / About</h2>
+<p>Carousel Drafter（以下「本ツール」）は、運営者が自分のTikTokアカウントに写真カルーセルの下書きを送るための個人用ツールです。運営者以外の利用者を想定していません。<br>
+Carousel Drafter is a single-user tool that sends photo-carousel drafts to the operator's own TikTok account. It is not offered to other users.</p>
+
+<h2>2. 取得する情報 / Data we access</h2>
+<ul>
+  <li>TikTokのOAuthで発行されるアクセストークン・リフレッシュトークン・Open ID（スコープ：user.info.basic, video.upload）<br>TikTok OAuth access token, refresh token and Open ID (scopes: user.info.basic, video.upload)</li>
+  <li>本ツールは、他のユーザーの個人情報、動画、コメント、フォロワー情報を取得しません。<br>The tool does not access other users' personal data, videos, comments or followers.</li>
+</ul>
+
+<h2>3. 利用目的 / How data is used</h2>
+<p>トークンは、運営者が作成した画像をTikTokの受信箱（下書き）に送るためだけに使用します。公開は運営者がTikTokアプリで手動で行います。<br>
+Tokens are used only to upload images created by the operator to the operator's TikTok inbox as drafts. Publishing is done manually by the operator in the TikTok app.</p>
+
+<h2>4. 保管 / Storage</h2>
+<p>トークンは暗号化したうえで運営者のGitHubリポジトリに保存し、復号鍵はGitHub Secretsで管理します。第三者への販売・共有は行いません。<br>
+Tokens are stored encrypted in the operator's GitHub repository; the decryption key is kept in GitHub Secrets. Data is never sold or shared with third parties.</p>
+
+<h2>5. 削除 / Deletion</h2>
+<p>TikTokアプリの設定から本ツールへのアクセスを取り消すことで、いつでも連携を解除できます。運営者はリポジトリ内の暗号化トークンを削除します。<br>
+Access can be revoked at any time from TikTok's app settings; the operator then deletes the stored encrypted token.</p>
+
+<h2>6. お問い合わせ / Contact</h2>
+<p>本ツールのGitHubリポジトリのIssueからご連絡ください。<br>Please contact us via the Issues page of this tool's GitHub repository.</p>
+</main>
+</body>
+</html>

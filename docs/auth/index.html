@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok連携</title>
+<style>
+  :root{--ink:#14204a;--muted:#5b6476;--red:#e8343a;--bg:#f5f7fb;--card:#fff}
+  @media (prefers-color-scheme:dark){:root{--ink:#e8ecf7;--muted:#a3abc0;--bg:#10131b;--card:#1a1f2b}}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);
+    display:grid;place-items:center;min-height:100vh;padding:16px}
+  .card{background:var(--card);border-radius:20px;padding:32px 24px;max-width:460px;width:100%;
+    box-shadow:0 10px 30px rgba(20,32,74,.08)}
+  h1{font-size:22px;margin:0 0 8px}
+  p{color:var(--muted);line-height:1.7;font-size:15px}
+  a.btn,button{display:block;width:100%;text-align:center;background:var(--red);color:#fff;border:0;border-radius:999px;
+    padding:16px;font-size:17px;font-weight:700;text-decoration:none;cursor:pointer;margin-top:16px}
+  code{display:block;word-break:break-all;background:var(--bg);border-radius:12px;padding:14px;font-size:14px;margin-top:12px;user-select:all}
+  .ok{color:#13804a;font-weight:700}
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script src="../config.js"></script>
+<script>
+const app = document.getElementById('app');
+const redirectUri = location.origin + location.pathname;
+const q = new URLSearchParams(location.search);
+let saved = null;
+try { saved = sessionStorage.getItem('tt_state'); } catch (e) {}
+
+if (q.get('code')) {
+  const stateOk = !saved || saved === q.get('state');
+  app.innerHTML = `<h1 class="ok">ログインできました</h1>
+    <p>下のコードをコピーして、GitHubの「Actions → ② TikTokと連携」に貼り付けて実行してください。<br>
+    コードは数分で使えなくなるので、すぐに進めてください。</p>
+    <code id="c"></code>
+    <button id="copy">コードをコピー</button>
+    ${stateOk ? '' : '<p>※確認用の値が一致しませんでした。もう一度最初からやり直してください。</p>'}`;
+  document.getElementById('c').textContent = q.get('code');
+  document.getElementById('copy').onclick = async () => {
+    try { await navigator.clipboard.writeText(q.get('code')); document.getElementById('copy').textContent = 'コピーしました'; } catch (e) {}
+  };
+} else if (q.get('error')) {
+  app.innerHTML = `<h1>連携できませんでした</h1><p></p><a class="btn" href="${redirectUri}">もう一度試す</a>`;
+  app.querySelector('p').textContent = q.get('error_description') || q.get('error');
+} else if (!window.TIKTOK_CLIENT_KEY) {
+  app.innerHTML = `<h1>準備中</h1><p>GitHub Secrets に TIKTOK_CLIENT_KEY を登録して、Actions の「サイトを更新」を実行してください。</p>`;
+} else {
+  const state = Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
+  try { sessionStorage.setItem('tt_state', state); } catch (e) {}
+  const url = 'https://www.tiktok.com/v2/auth/authorize/?' + new URLSearchParams({
+    client_key: window.TIKTOK_CLIENT_KEY, response_type: 'code',
+    scope: 'user.info.basic,video.upload', redirect_uri: redirectUri, state
+  });
+  app.innerHTML = `<h1>TikTokと連携する</h1>
+    <p>投稿を下書きに送るために、あなたのTikTokアカウントでこのアプリを許可します。最初に一度だけ必要です。</p>
+    <p>このページのURL（TikTokに登録するリダイレクトURI）:</p><code></code>
+    <a class="btn" href="${url}">TikTokでログイン</a>`;
+  app.querySelector('code').textContent = redirectUri;
+}
+</script>
+</body>
+</html>

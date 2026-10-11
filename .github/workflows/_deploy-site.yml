@@ -1,0 +1,27 @@
+name: (内部) サイトを公開
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - run: |
+          mkdir -p _site && cp -r docs/. _site/
+          echo "window.TIKTOK_CLIENT_KEY='${{ secrets.TIKTOK_CLIENT_KEY }}';" > _site/config.js
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.d.outputs.page_url }}
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4
