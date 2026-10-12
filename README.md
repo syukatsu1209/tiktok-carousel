@@ -15,7 +15,7 @@ specs/今日.json を保存       画像を公開URLに置く（GitHub Pages）
 
 ## セットアップ（最初の1回だけ・合計30〜40分）
 
-以下の `<ユーザー名>` はあなたの GitHub ユーザー名です。
+以下の `syukatsu1209` はあなたの GitHub ユーザー名です。
 
 ### 1. GitHub（5分）
 1. https://github.com でアカウントを作る
@@ -41,15 +41,15 @@ specs/今日.json を保存       画像を公開URLに置く（GitHub Pages）
    | App name | Carousel Drafter（好きな名前でOK） |
    | Category | Utilities など |
    | Description | `Personal tool that sends photo carousels about student internships to my own TikTok inbox as drafts.` |
-   | Terms of Service URL | `https://<ユーザー名>.github.io/tiktok-carousel/terms.html` |
-   | Privacy Policy URL | `https://<ユーザー名>.github.io/tiktok-carousel/privacy.html` |
-   | Platforms | **Web**（Website URL：`https://<ユーザー名>.github.io/tiktok-carousel/`） |
+   | Terms of Service URL | `https://syukatsu1209.github.io/tiktok-carousel/terms.html` |
+   | Privacy Policy URL | `https://syukatsu1209.github.io/tiktok-carousel/privacy.html` |
+   | Platforms | **Web**（Website URL：`https://syukatsu1209.github.io/tiktok-carousel/`） |
 3. **Add products** で次の2つを追加
-   - **Login Kit**：Redirect URI に `https://<ユーザー名>.github.io/tiktok-carousel/auth/`（最後の `/` まで）
+   - **Login Kit**：Redirect URI に `https://syukatsu1209.github.io/tiktok-carousel/auth/`（最後の `/` まで）
    - **Content Posting API**：Direct Post は**オフのまま**でOK（下書き送信だけ使います）
 4. **Scopes**：`user.info.basic` と `video.upload` の2つだけ
 5. **URL properties**（画像URLの所有権確認）
-   1. 「URL prefix」に `https://<ユーザー名>.github.io/tiktok-carousel/` を追加 →「Verify」
+   1. 「URL prefix」に `https://syukatsu1209.github.io/tiktok-carousel/` を追加 →「Verify」
    2. 表示された確認用ファイルをダウンロード
    3. GitHub の「Actions」→「③ TikTokの所有権確認ファイルを置く」→「Run workflow」
       - ファイル名と、ファイルの中身（テキスト）をそのまま貼り付けて実行
@@ -61,7 +61,7 @@ specs/今日.json を保存       画像を公開URLに置く（GitHub Pages）
 
 ### 4. TikTok と連携（3分）
 1. GitHub「Actions」→「サイトを更新」→「Run workflow」（キーをサイトに反映）
-2. `https://<ユーザー名>.github.io/tiktok-carousel/auth/` を開き「TikTokでログイン」→ 許可
+2. `https://syukatsu1209.github.io/tiktok-carousel/auth/` を開き「TikTokでログイン」→ 許可
 3. 表示されたコードをコピー → GitHub「Actions」→「② TikTokと連携」に貼り付けて実行（数分以内に）
 
 ### 5. テスト送信（5分）
