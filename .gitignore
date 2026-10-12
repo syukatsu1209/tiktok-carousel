@@ -8,3 +8,4 @@ __pycache__/
 carousel/bg/night.png
 carousel/bg/mine.png
 carousel/bg/credits.txt
+carousel/bg/fallback_*.png

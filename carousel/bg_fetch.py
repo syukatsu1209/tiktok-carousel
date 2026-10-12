@@ -64,6 +64,11 @@ def main(seed):
         img = from_user(kind, rnd) if kind == 'mine' else (from_user(kind, rnd) or from_pexels(kind, rnd))
         if img is None:
             fb = BG / f'fallback_{"day" if kind == "day" else "night"}.png'
+            if not fb.exists():  # 仮背景がなければその場で描く
+                import subprocess
+                scene = 'day' if kind == 'day' else 'dusk'
+                subprocess.run([sys.executable, str(ROOT / 'bg_generate.py'), scene,
+                                '3' if scene == 'day' else '11', str(fb)], check=True)
             img = fit(Image.open(fb))
             CREDITS.append(f'{kind}: 仮背景 {fb.name}')
         img.save(BG / f'{kind}.png')
