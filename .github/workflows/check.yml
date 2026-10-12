@@ -1,0 +1,36 @@
+name: ④ 連携状況を確認
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['tiktok/check.py']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: post
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -q cryptography
+      - name: 確認する
+        env:
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+        run: cd tiktok && python check.py | tee ../status/check.txt
+      - name: 結果を保存（トークン更新分も）
+        run: |
+          git config user.name "carousel-bot"
+          git config user.email "carousel-bot@users.noreply.github.com"
+          git add status/check.txt tiktok/token.enc
+          git diff --cached --quiet || git commit -m "check: TikTok link status"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
