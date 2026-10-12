@@ -2,7 +2,7 @@
 usage: python render.py posts/2026-10-13.json
 出力: out/<post_id>/slide_01.png ... (すべて 1080x1440 / 3:4 固定) と caption.txt
 """
-import json, sys, html, pathlib
+import json, os, sys, html, pathlib
 from PIL import Image, ImageFilter, ImageEnhance
 from playwright.sync_api import sync_playwright
 
@@ -249,14 +249,28 @@ def main(path):
     work = out / '_work'; work.mkdir(exist_ok=True)
     for old in out.glob('slide_*.png'):  # ページ数を変えて作り直したときの残骸を消す
         old.unlink()
+    # フォントや画像はローカルWebサーバー経由で読み込む（file:// だとブラウザがフォントを拒否するため）
+    import functools, threading
+    from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+    class Quiet(SimpleHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+    srv = ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(ROOT)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    base = f'http://127.0.0.1:{srv.server_address[1]}'
     with sync_playwright() as p:
-        br = p.chromium.launch()
+        ch = os.environ.get('BROWSER_CHANNEL')  # GitHub Actions では入っている Chrome を使う
+        br = p.chromium.launch(channel=ch) if ch else p.chromium.launch()
         pg = br.new_page(viewport={'width': W, 'height': H}, device_scale_factor=1)
         for i, s in enumerate(post['slides'], 1):
             f = work / f'slide_{i:02d}.html'
-            f.write_text(build(s, work), encoding='utf-8')
-            pg.goto(f'file://{f}')
+            f.write_text(build(s, work).replace(f'file://{ROOT}', base), encoding='utf-8')
+            pg.goto(base + '/' + f.relative_to(ROOT).as_posix())
             pg.evaluate('document.fonts.ready')
+            pg.wait_for_timeout(200)
+            bad = pg.evaluate("[...document.fonts].filter(f => f.status === 'error').length")
+            if bad:
+                raise SystemExit(f'フォントの読み込みに失敗しました（{bad}件）')
             pg.wait_for_timeout(300)
             k = pg.evaluate(FIT_JS)
             name = f'slide_{i:02d}' + ('_optional' if s.get('optional') else '') + '.png'

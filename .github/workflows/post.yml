@@ -26,6 +26,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     outputs:
       post_id: ${{ steps.pick.outputs.post_id }}
     steps:
@@ -51,13 +52,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 必要なものを入れる（フォント・ブラウザ）
+      - name: 必要なものを入れる（フォントは同梱・ブラウザは入っている Chrome を使う）
+        timeout-minutes: 8
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-color-emoji > /dev/null
           pip install -q playwright pillow numpy
-          python -m playwright install --with-deps chromium > /dev/null
-          cd carousel && npm ci --silent
+          mkdir -p ~/.local/share/fonts && cp carousel/fonts/*.ttf ~/.local/share/fonts/ && fc-cache -f > /dev/null
+          cd carousel && npm ci --no-audit --no-fund
 
       - name: 背景写真を用意してスモークをかける
         env:
@@ -65,6 +65,10 @@ jobs:
         run: cd carousel && python bg_fetch.py "${{ steps.pick.outputs.post_id }}"
 
       - name: スライドを作る（1080×1440）
+        timeout-minutes: 8
+        env:
+          BROWSER_CHANNEL: chrome
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         run: cd carousel && python compose.py "specs/${{ steps.pick.outputs.post_id }}.json" --render
 
       - name: 公開用に JPEG へ変換してサイトに入れる
@@ -111,6 +115,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   draft:
+    timeout-minutes: 20
     needs: [build, deploy]
     if: github.event_name == 'push' || github.event.inputs.send_to_tiktok == 'true'
     runs-on: ubuntu-latest
