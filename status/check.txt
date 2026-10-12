@@ -1,0 +1,4 @@
+連携中のアカウント表示名: なな
+user/info error: ok 
+最新の送信: 2026-10-13 p_inbox_url~v2.7695847033714034696
+TikTokの現在の状態: {"data": {"status": "SEND_TO_USER_INBOX"}, "error": {"code": "ok", "message": "", "log_id": "2026101302463113307D338799883C01CF"}}
