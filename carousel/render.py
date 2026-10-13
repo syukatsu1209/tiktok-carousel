@@ -271,6 +271,25 @@ def wikidata_search(term):
     raise ValueError(f'Wikidata で「{term}」のロゴが見つかりません')
 
 
+def trim_logo(f):
+    """ロゴ画像の周りの余白（透明・白）を切り落として、カード内で大きく見えるようにする"""
+    import numpy as np
+    try:
+        im = Image.open(f).convert('RGBA')
+        a = np.asarray(im).astype(int)
+        ink = (a[..., 3] > 16) & (a[..., :3].min(axis=2) < 245)
+        ys, xs = np.where(ink)
+        if len(xs):
+            pad = 4
+            box = (max(xs.min() - pad, 0), max(ys.min() - pad, 0),
+                   min(xs.max() + pad + 1, im.width), min(ys.max() + pad + 1, im.height))
+            im.crop(box).save(f.with_suffix('.png'))
+            if f.suffix != '.png':
+                f.unlink()
+    except Exception as ex:
+        print(f'[warn] ロゴの余白を切れませんでした: {f.name} {ex}')
+
+
 def logo_src(item):
     """ロゴ画像のパスを返す。
     logo（リポジトリ内の画像）> logo_url（直接URL）> wikidata（Q番号）> 社名で Wikidata 検索 の順。
@@ -296,6 +315,9 @@ def logo_src(item):
                 else '.webp' if data[8:12] == b'WEBP' else '.png'
             f = LOGO_DIR / (stem + ext)
             f.write_bytes(data)
+            if ext != '.svg':
+                trim_logo(f)
+                f = f.with_suffix('.png')
         except Exception as ex:
             print(f'[warn] ロゴを取得できませんでした（文字で代用）: {item.get("name")} {ex}')
             return None
@@ -326,7 +348,7 @@ RANK_CSS = """
 .rpts{list-style:none;margin-top:calc(4px*var(--k))}
 .rpts li{font-weight:500;font-size:calc(28px*var(--k));line-height:1.62;color:#111;padding-left:1.1em;text-indent:-1.1em}
 .rpts li::before{content:'・'}
-.logo{flex:none;max-width:250px;max-height:calc(96px*var(--k));object-fit:contain}
+.logo{flex:none;max-width:290px;max-height:calc(96px*var(--k));object-fit:contain}
 .wmk{font-family:'M PLUS Rounded 1c';font-weight:900;font-size:calc(46px*var(--k));letter-spacing:.01em;
   text-align:right;line-height:1.05;white-space:nowrap}
 .rcard.solo{--k:1.12;width:860px;padding-top:calc(70px*var(--k));padding-bottom:calc(80px*var(--k))}
