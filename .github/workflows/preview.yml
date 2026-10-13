@@ -7,6 +7,9 @@ on:
     paths: ['carousel/samples/*.json', 'carousel/render.py', 'carousel/compose.py']
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 concurrency:
   group: preview
   cancel-in-progress: true
@@ -39,7 +42,7 @@ jobs:
           BROWSER_CHANNEL: chrome
         run: |
           cd carousel
-          for f in samples/*.json; do python compose.py "$f" --render; done
+          for f in samples/*.json; do python compose.py "$f" --render; done 2>&1 | tee ../render.log
           mkdir -p ../_preview
           for d in out/*/; do id=$(basename "$d"); mkdir -p ../_preview/$id; cp $d/slide_*.png $d/caption.txt ../_preview/$id/ 2>/dev/null || true; done
       - uses: actions/upload-artifact@v4
@@ -47,3 +50,16 @@ jobs:
           name: preview
           path: _preview/
           retention-days: 14
+      - name: preview ブランチにも置く（ブラウザで見られるように）
+        run: |
+          cd _preview
+          python -c "
+          import pathlib
+          from PIL import Image
+          for p in pathlib.Path('.').glob('*/slide_*.png'):
+              Image.open(p).convert('RGB').save(p.with_suffix('.jpg'), quality=88); p.unlink()
+          "
+          cp ../render.log .
+          git init -q -b preview && git add -A
+          git -c user.name=carousel-bot -c user.email=carousel-bot@users.noreply.github.com commit -qm "preview ${{ github.sha }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" preview
