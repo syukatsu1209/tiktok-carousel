@@ -1,0 +1,66 @@
+{
+  "post_id": "sample-ranking",
+  "research_row": 3,
+  "cta": true,
+  "affiliate_url": "https://careerpark.jp/employ/event/4866/lps/4800",
+  "covers": [
+    {
+      "bg": "night",
+      "blocks": [
+        {"lines": ["初任給30万超え❗️"]},
+        {"lines": ["勝ち組スタート神企業", "【文系・総合職編】"]}
+      ]
+    }
+  ],
+  "per_slide": 3,
+  "solo_first": true,
+  "ranking": [
+    {"rank": 10, "name": "任天堂", "wordmark": "Nintendo", "brand": "#e60012", "logo_search": "任天堂",
+     "start_pay": "30.6万円", "avg_salary": "982万円",
+     "points": ["平均勤続14.6年。長く働く人が多い", "社員3,084人の少数精鋭（単体）"]},
+    {"rank": 9, "name": "三菱地所", "wordmark": "三菱地所", "brand": "#d6001c", "logo_search": "三菱地所",
+     "start_pay": "33万円", "notes": ["2027年4月入社から"], "avg_salary": "1,759万円",
+     "points": ["平均年収が1年で約400万円アップ", "丸の内の街づくりを手がける大手デベ"]},
+    {"rank": 8, "name": "丸紅", "wordmark": "Marubeni", "brand": "#d7000f", "logo_search": "丸紅",
+     "start_pay": "33万円", "avg_salary": "1,784万円",
+     "points": ["2026年4月に初任給を2.5万円引き上げ", "5大総合商社の一角"]},
+    {"rank": 7, "name": "三井不動産", "wordmark": "三井不動産", "brand": "#1d4d9a", "logo_search": "三井不動産",
+     "start_pay": "33万円", "avg_salary": "1,856万円",
+     "points": ["平均年収は前年から5.7%アップ", "平均勤続16.0年"]},
+    {"rank": 6, "name": "住友商事", "wordmark": "住友商事", "brand": "#004ea2", "logo_search": "住友商事",
+     "start_pay": "33.5万円", "avg_salary": "1,840万円",
+     "points": ["5大総合商社の一角", "平均年齢43.3歳"]},
+    {"rank": 5, "name": "三井物産", "wordmark": "MITSUI & CO.", "brand": "#003f8e", "logo_search": "三井物産",
+     "start_pay": "34万円", "avg_salary": "2,059万円",
+     "points": ["平均年収は5大商社で2番目", "平均年齢42.0歳で2,000万円超え"]},
+    {"rank": 4, "name": "損害保険ジャパン", "wordmark": "損保ジャパン", "brand": "#c8102e", "logo_search": "損害保険ジャパン",
+     "start_pay": "34.7万円", "notes": ["大卒・短大卒"], "avg_salary": "742万円",
+     "points": ["平均年収は前年から12.0%アップ", "社員2万人超の大手損保"]},
+    {"rank": 3, "name": "三菱商事", "wordmark": "三菱商事", "brand": "#e60012", "logo_search": "三菱商事",
+     "start_pay": "35万円", "avg_salary": "2,113万円",
+     "points": ["平均年収は5大商社でトップ", "平均勤続17年7ヶ月"]},
+    {"rank": 2, "name": "伊藤忠商事", "wordmark": "ITOCHU", "brand": "#0a3b8c", "logo_search": "伊藤忠商事",
+     "start_pay": "36万円", "avg_salary": "1,991万円",
+     "points": ["独自の「朝型勤務制度」を導入", "平均年収は1年で187万円アップ"]},
+    {"rank": 1, "name": "サイバーエージェント", "wordmark": "CyberAgent", "brand": "#2b9a3e", "logo_search": "サイバーエージェント",
+     "start_pay": "42万円", "notes": ["年俸制・固定残業代（月80時間分）込み"], "avg_salary": "914万円",
+     "points": ["2023年入社から初任給を42万円に引き上げ", "広告・ゲーム・ABEMAと事業の幅が広い"]}
+  ],
+  "caption": "初任給30万超え！勝ち組スタートの神企業【文系・総合職編】💰\n\n10位 任天堂 30.6万円\n9位 三菱地所 33万円（27年4月〜）\n8位 丸紅 33万円\n7位 三井不動産 33万円\n6位 住友商事 33.5万円\n5位 三井物産 34万円\n4位 損保ジャパン 34.7万円\n3位 三菱商事 35万円\n2位 伊藤忠商事 36万円\n1位 サイバーエージェント 42万円（固定残業代込み）\n\n初任給は「固定残業代込みかどうか」「転勤の有無」で見え方が変わるから、募集要項まで必ずチェックしてね👀\n\n大手・優良企業に書類選考なしで進める特別推薦ルートは、プロフィールのリンクから無料で登録できるよ📩\n\n※平均年収は各社の有価証券報告書（単体）より。初任給・制度は変更の可能性あり\n\n#PR #28卒 #27卒 #就活 #初任給 #高年収 #総合商社 #就活生 #大学生",
+  "sources": [
+    ["初任給（各社）", "https://jinzainews.net/26812621/"],
+    ["丸紅 初任給引き上げ", "https://www.businessinsider.jp/article/299909/"],
+    ["サイバーエージェント 初任給の内訳", "https://www.itmedia.co.jp/business/spv/2208/11/news014_2.html"],
+    ["サイバーエージェント 平均年収（2025年9月期）", "https://the-shashi.com/tse/4751/workforce/"],
+    ["任天堂 有報（2026年3月期）", "https://edinetdb.jp/company/E02367/text?fy=2026"],
+    ["三菱地所 平均年収", "https://edinetdb.jp/company/E03856"],
+    ["丸紅 平均年収", "https://edinetdb.jp/company/E02498/earnings/FY2026"],
+    ["三井不動産 有報（2026年3月期）", "https://edinetdb.jp/company/E03855/text?fy=2026"],
+    ["住友商事 平均年収", "https://edinetdb.jp/company/E02528/earnings/FY2026"],
+    ["三井物産 平均年収", "https://edinetdb.jp/company/E02513/earnings/FY2026"],
+    ["損保ジャパン 有報（2026年3月期）", "https://edinetdb.jp/company/E03827/text"],
+    ["三菱商事 有報（2026年3月期）", "https://edinetdb.jp/company/E02529/text?fy=2026"],
+    ["伊藤忠商事 平均年収", "https://the-shashi.com/tse/8001/workforce/"],
+    ["伊藤忠商事 朝型勤務", "https://migi-nanameue.co.jp/column/itochu-salary-average-2026/"]
+  ]
+}

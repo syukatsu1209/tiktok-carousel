@@ -145,6 +145,17 @@ FIT_JS = """
     const wrapped = () => new Set(chips.map(x => x.offsetTop)).size > 1;
     while (wrapped() && fs > 18) { fs -= 1; chips.forEach(x => x.style.fontSize = fs + 'px'); }
   });
+  // ランキング：社名や文字ロゴがはみ出す場合は縮小（文字ロゴは最大幅 300px）
+  document.querySelectorAll('.wmk').forEach(w => {
+    let fs = parseFloat(getComputedStyle(w).fontSize);
+    const t = w.closest('.rtop');
+    while ((w.offsetWidth > 250 || (t && t.scrollWidth > t.clientWidth + 1)) && fs > 18) { fs -= 1; w.style.fontSize = fs + 'px'; }
+  });
+  document.querySelectorAll('.rtop').forEach(t => {
+    const r = t.querySelector('.rank');
+    let fs = parseFloat(getComputedStyle(r).fontSize);
+    while (r.scrollWidth > r.parentElement.clientWidth + 1 && fs > 20) { fs -= 1; r.style.fontSize = fs + 'px'; }
+  });
   return k;
 }
 """
@@ -219,6 +230,172 @@ def cta_html():
     </div></div>"""
 
 
+LOGO_DIR = ROOT / 'logos'
+
+
+UA = {'User-Agent': 'tiktok-carousel/1.0 (https://github.com/syukatsu1209/tiktok-carousel)'}
+
+
+def _get(url, timeout=20):
+    import urllib.request
+    return urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout).read()
+
+
+def wikidata_logo_url(qid):
+    """Wikidata の「ロゴ画像(P154)」から Wikimedia Commons の画像URL（PNG・幅500px）を得る"""
+    import urllib.parse
+    d = json.loads(_get(f'https://www.wikidata.org/wiki/Special:EntityData/{qid}.json'))
+    ent = next(iter(d['entities'].values()))
+    claims = ent.get('claims', {}).get('P154', [])
+    # 推奨(preferred)ランクがあればそれ、なければ最初のもの
+    claims.sort(key=lambda c: c.get('rank') != 'preferred')
+    if not claims:
+        raise ValueError(f'{qid} にロゴ画像(P154)が登録されていません')
+    fname = claims[0]['mainsnak']['datavalue']['value']
+    return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + urllib.parse.quote(fname) + '?width=500'
+
+
+def wikidata_search(term):
+    """社名で Wikidata を検索し、ロゴ画像(P154)を持つ最初の候補の Q番号を返す"""
+    import urllib.parse
+    q = urllib.parse.urlencode({'action': 'wbsearchentities', 'search': term, 'language': 'ja',
+                                'uselang': 'ja', 'type': 'item', 'limit': 5, 'format': 'json'})
+    hits = json.loads(_get('https://www.wikidata.org/w/api.php?' + q)).get('search', [])
+    for h in hits:
+        try:
+            wikidata_logo_url(h['id'])
+            print(f'  ロゴ検索: {term} → {h["id"]} {h.get("label")} / {h.get("description", "")}')
+            return h['id']
+        except Exception:
+            continue
+    raise ValueError(f'Wikidata で「{term}」のロゴが見つかりません')
+
+
+def logo_src(item):
+    """ロゴ画像のパスを返す。
+    logo（リポジトリ内の画像）> logo_url（直接URL）> wikidata（Q番号）> 社名で Wikidata 検索 の順。
+    取得できなければ None（その場合は社名の文字ロゴで代用）"""
+    if item.get('logo') and (ROOT / item['logo']).exists():
+        return f'file://{ROOT / item["logo"]}'
+    if item.get('logo') is False:          # ロゴを使わない（文字ロゴにする）
+        return None
+    key = item.get('logo_url') or item.get('wikidata') or ('search:' + item.get('logo_search', item['name']))
+    import hashlib
+    LOGO_DIR.mkdir(exist_ok=True)
+    stem = hashlib.sha1(key.encode()).hexdigest()[:16]
+    hit = [x for x in LOGO_DIR.glob(stem + '.*')]
+    f = hit[0] if hit else None
+    if not f:
+        try:
+            url = item.get('logo_url') or wikidata_logo_url(
+                item.get('wikidata') or wikidata_search(item.get('logo_search', item['name'])))
+            data = _get(url)
+            if len(data) < 200:
+                raise ValueError('画像が小さすぎます')
+            ext = '.svg' if data.lstrip()[:1] == b'<' else '.jpg' if data[:2] == b'\xff\xd8' \
+                else '.webp' if data[8:12] == b'WEBP' else '.png'
+            f = LOGO_DIR / (stem + ext)
+            f.write_bytes(data)
+        except Exception as ex:
+            print(f'[warn] ロゴを取得できませんでした（文字で代用）: {item.get("name")} {ex}')
+            return None
+    return f'file://{f}'
+
+
+def logo_html(item, cls='logo'):
+    src = logo_src(item)
+    if src:
+        return f'<img class="{cls}" src="{src}" alt="">'
+    brand = item.get('brand', '#14204a')
+    return f'<span class="{cls} wmk" style="color:{brand}">{e(item.get("wordmark") or item["name"])}</span>'
+
+
+RANK_CSS = """
+.stack{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 0}
+.rcard{width:820px;background:#fff;padding:calc(46px*var(--k)) 52px calc(44px*var(--k));
+  box-shadow:0 6px 24px rgba(0,0,0,.10)}
+.ritem{position:relative;margin-top:calc(42px*var(--k))}
+.ritem:first-child{margin-top:0}
+.rtop{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.rleft{flex:1;min-width:0}
+.rank{display:flex;align-items:center;gap:12px;font-weight:700;font-size:calc(33px*var(--k));line-height:1.5;color:#111;white-space:nowrap}
+.rank .emo{font-size:calc(34px*var(--k))}
+.rline{display:flex;align-items:center;gap:12px;font-weight:500;font-size:calc(31px*var(--k));line-height:1.6;color:#111}
+.rline .emo{font-size:calc(30px*var(--k));width:40px;text-align:center}
+.rsub{font-weight:500;font-size:calc(26px*var(--k));line-height:1.55;color:#222;margin-left:4px}
+.rpts{list-style:none;margin-top:calc(4px*var(--k))}
+.rpts li{font-weight:500;font-size:calc(28px*var(--k));line-height:1.62;color:#111;padding-left:1.1em;text-indent:-1.1em}
+.rpts li::before{content:'・'}
+.logo{flex:none;max-width:250px;max-height:calc(96px*var(--k));object-fit:contain}
+.wmk{font-family:'M PLUS Rounded 1c';font-weight:900;font-size:calc(46px*var(--k));letter-spacing:.01em;
+  text-align:right;line-height:1.05;white-space:nowrap}
+.rcard.solo{--k:1.12;width:860px;padding-top:calc(70px*var(--k));padding-bottom:calc(80px*var(--k))}
+.rcard.solo .logo{max-height:calc(120px*var(--k))}
+"""
+
+LIST_CSS = """
+.stack{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 0}
+.lcard{width:840px;background:#fff;padding:calc(64px*var(--k)) 70px calc(40px*var(--k));box-shadow:0 6px 24px rgba(0,0,0,.10)}
+.ltitle{font-weight:700;font-size:calc(36px*var(--k));color:#222;margin-bottom:calc(40px*var(--k));
+  display:flex;align-items:center;gap:8px}
+.litems{list-style:none;counter-reset:n}
+.litems li{counter-increment:n;font-weight:500;font-size:calc(29px*var(--k));line-height:1.55;color:#222;
+  padding-left:1.6em;text-indent:-1.6em;margin-bottom:calc(6px*var(--k))}
+.litems li::before{content:counter(n, decimal);display:inline-flex;align-items:center;justify-content:center;
+  width:1.2em;height:1.2em;margin-right:.35em;border:2px solid #333;border-radius:50%;font-size:.72em;text-indent:0;
+  vertical-align:.12em}
+.lfoot{text-align:right;font-weight:700;font-size:calc(26px*var(--k));color:#222;margin-top:calc(26px*var(--k))}
+"""
+
+TIPS_CSS = """
+.stack{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  gap:calc(26px*var(--k));padding:60px 70px}
+.th{background:#fff;font-weight:500;font-size:calc(50px*var(--k));line-height:1.35;padding:18px 26px;color:#111;
+  text-align:center;max-width:960px}
+.tb{background:#fff;font-weight:500;font-size:calc(31px*var(--k));line-height:1.45;padding:12px 22px;color:#111;
+  text-align:center;max-width:840px}
+.tex{display:flex;flex-direction:column;gap:12px;align-items:center}
+.tex div{background:#fff;font-weight:500;font-size:calc(30px*var(--k));line-height:1.4;padding:8px 20px;color:#111;text-align:center}
+.tsmall{color:#fff;font-weight:900;font-size:calc(27px*var(--k));line-height:1.5;text-align:center;
+  text-shadow:0 2px 6px rgba(0,0,0,.55);max-width:820px}
+"""
+
+
+def medal(rank):
+    return {1: '🥇', 2: '🥈', 3: '🥉'}.get(int(rank), '✅')
+
+
+def rank_item_html(it):
+    subs = ''.join(f'<div class="rsub">（{e(s)}）</div>' for s in it.get('notes', []))
+    pts = ''.join(f'<li>{e(p)}</li>' for p in it.get('points', []))
+    return f"""<div class="ritem"><div class="rtop"><div class="rleft">
+      <div class="rank">{emo(medal(it['rank']))}<span>{e(it['rank'])}位：{e(it['name'])}</span></div>
+      <div class="rline">{emo('👉')}<span>初任給 {e(it['start_pay'])}</span></div>
+      </div>{logo_html(it)}</div>{subs}
+      <div class="rline">{emo('💰')}<span>平均年収 {e(it['avg_salary'])}</span></div>
+      <ul class="rpts">{pts}</ul></div>"""
+
+
+def rank_html(items, solo=False):
+    return f'<div class="stack"><div class="rcard{" solo" if solo else ""}">' + \
+        ''.join(rank_item_html(i) for i in items) + '</div></div>'
+
+
+def list_html(s):
+    items = ''.join(f'<li>{e(t)}</li>' for t in s['items'])
+    foot = f'<div class="lfoot">{e(s["footnote"])}</div>' if s.get('footnote') else ''
+    return f"""<div class="stack"><div class="lcard"><div class="ltitle">{e(s['title'])}</div>
+      <ul class="litems">{items}</ul>{foot}</div></div>"""
+
+
+def tips_html(s):
+    body = ''.join(f'<div class="tb">{e(t)}</div>' for t in s.get('body', []))
+    ex = ''.join(f'<div>{e(t)}</div>' for t in s.get('examples', []))
+    small = f'<div class="tsmall">{e(s["small"])}</div>' if s.get('small') else ''
+    return f"""<div class="stack"><div class="th">{e(s['heading'])}</div>{body}
+      {f'<div class="tex">{ex}</div>' if ex else ''}{small}</div>"""
+
+
 def page(body, bg, css):
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>{BASE_CSS}{css}</style></head>
 <body style="background-image:url('file://{bg}')">{body}</body></html>"""
@@ -231,6 +408,13 @@ def build(slide, workdir):
         blocks = ''.join('<div class="block">' + ''.join(f'<div class="line">{mixed(l)}</div>' for l in b['lines'])
                          + '</div>' for b in slide['blocks'])
         return page(f'<div class="wrap">{blocks}</div>', bg, COVER_CSS)
+    if t in ('rank', 'rank1', 'list', 'tips'):
+        # 参考投稿と同じく、背景写真はそのまま（スモークなし）に白カード／白帯を載せる
+        if t in ('rank', 'rank1'):
+            return page(rank_html(slide['items'], solo=(t == 'rank1')), bg, RANK_CSS)
+        if t == 'list':
+            return page(list_html(slide), bg, LIST_CSS)
+        return page(tips_html(slide), bg, TIPS_CSS)
     sm = smoke(bg, workdir / f'smoke_{bg.stem}.png')
     if t == 'cards':
         return page('<div class="stack">' + ''.join(card_html(c) for c in slide['cards']) + '</div>',

@@ -1,0 +1,49 @@
+name: ⑤ お試し画像を作る（TikTokには送らない）
+
+# carousel/samples/ の投稿データを画像にするだけ。新しい型の確認用。
+on:
+  push:
+    branches: [main]
+    paths: ['carousel/samples/*.json', 'carousel/render.py', 'carousel/compose.py']
+  workflow_dispatch:
+
+concurrency:
+  group: preview
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 必要なものを入れる
+        timeout-minutes: 8
+        run: |
+          pip install -q playwright pillow numpy
+          mkdir -p ~/.local/share/fonts && cp carousel/fonts/*.ttf ~/.local/share/fonts/ && fc-cache -f > /dev/null
+          cd carousel && npm ci --no-audit --no-fund
+      - name: 背景を用意
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: cd carousel && python bg_fetch.py preview
+      - name: お試し画像を作る
+        timeout-minutes: 10
+        env:
+          BROWSER_CHANNEL: chrome
+        run: |
+          cd carousel
+          for f in samples/*.json; do python compose.py "$f" --render; done
+          mkdir -p ../_preview
+          for d in out/*/; do id=$(basename "$d"); mkdir -p ../_preview/$id; cp $d/slide_*.png $d/caption.txt ../_preview/$id/ 2>/dev/null || true; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview
+          path: _preview/
+          retention-days: 14
