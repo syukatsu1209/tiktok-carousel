@@ -1,0 +1,34 @@
+slide_01.png (1080, 1440) fit=1
+slide_02.png (1080, 1440) fit=1
+slide_03.png (1080, 1440) fit=1
+done -> /home/runner/work/tiktok-carousel/tiktok-carousel/carousel/out/sample-list
+3ページ: 表紙 → リスト → PR
+-> /home/runner/work/tiktok-carousel/tiktok-carousel/carousel/posts/sample-list.json
+slide_01.png (1080, 1440) fit=1
+  ロゴ検索: 任天堂 → Q8093 任天堂 / 主にコンピュータゲーム等のレジャーコンテンツを事業とする日系グローバル企業
+  ロゴ検索: 三菱地所 → Q304962 三菱地所 / 日本の東京都千代田区にある不動産ディベロッパー
+  ロゴ検索: 丸紅 → Q553927 丸紅 / 日本の総合商社
+slide_02.png (1080, 1440) fit=1
+  ロゴ検索: 三井不動産 → Q1812986 三井不動産 / 日本の東京都中央区にある総合不動産会社
+  ロゴ検索: 住友商事 → Q716979 住友商事 / 日本の総合商社
+  ロゴ検索: 三井物産 → Q904240 三井物産 / 日本の総合商社
+slide_03.png (1080, 1440) fit=1
+  ロゴ検索: 損害保険ジャパン → Q1538466 損害保険ジャパン / 日本の東京都新宿区にある損害保険会社
+  ロゴ検索: 三菱商事 → Q650745 三菱商事 / 日本の総合商社
+  ロゴ検索: 伊藤忠商事 → Q717093 伊藤忠商事 / 日本の大阪府大阪市・東京都港区にある総合商社
+slide_04.png (1080, 1440) fit=1
+  ロゴ検索: サイバーエージェント → Q11304138 サイバーエージェント / 日本の娯楽企業
+slide_05.png (1080, 1440) fit=1
+slide_06.png (1080, 1440) fit=1
+done -> /home/runner/work/tiktok-carousel/tiktok-carousel/carousel/out/sample-ranking
+6ページ: 表紙 → ランキング → ランキング → ランキング → 1位 → PR
+-> /home/runner/work/tiktok-carousel/tiktok-carousel/carousel/posts/sample-ranking.json
+slide_01.png (1080, 1440) fit=1
+slide_02.png (1080, 1440) fit=1
+slide_03.png (1080, 1440) fit=1
+slide_04.png (1080, 1440) fit=1
+slide_05.png (1080, 1440) fit=1
+slide_06.png (1080, 1440) fit=1
+done -> /home/runner/work/tiktok-carousel/tiktok-carousel/carousel/out/sample-tips
+6ページ: 表紙 → ノウハウ → ノウハウ → ノウハウ → ノウハウ → PR
+-> /home/runner/work/tiktok-carousel/tiktok-carousel/carousel/posts/sample-tips.json
