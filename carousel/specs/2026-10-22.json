@@ -1,0 +1,113 @@
+{
+  "post_id": "2026-10-22",
+  "research_row": 2,
+  "pages": 6,
+  "layout": "auto",
+  "cta": true,
+  "affiliate_url": "https://careerpark.jp/employ/event/4866/lps/4800",
+  "covers": [
+    {"bg": "night", "blocks": [
+      {"lines": ["28卒就活✍️"]},
+      {"lines": ["今からでも間に合う‼️", "大手の冬インターン👉"]}
+    ]},
+    {"bg": "day", "blocks": [
+      {"lines": ["受けるなら絶対ここ‼️", "東芝"]},
+      {"lines": ["11/4締切"]}
+    ]}
+  ],
+  "companies": [
+    {
+      "wordmark": "mercari", "tagline": "フリマアプリ大手",
+      "brand": "#ff0211", "icon": "📱", "name": "株式会社メルカリ", "logo_search": "メルカリ",
+      "program": "Software Engineer Internship（28卒対象）",
+      "deadline": "10/31 23:59締切", "selection": "書類→技術課題→面接2回",
+      "stats": [
+        {"label": "期間", "value": "2-3", "unit": "ヶ月"},
+        {"label": "稼働", "value": "週20", "unit": "時間〜"},
+        {"label": "形式", "value": "リモート可", "unit": ""}
+      ],
+      "note": "メルカリ公式の募集要項より（エンジニア職・開発経験が必要）",
+      "points": [
+        ["📱", "メルカリ・メルペイ等の機能開発"],
+        ["👥", "エンジニアチームの一員として参加"],
+        ["🎤", "最終報告会で成果を発表"],
+        ["🏢", "六本木オフィスかリモート"]
+      ]
+    },
+    {
+      "wordmark": "HP", "tagline": "PC・プリンターメーカー",
+      "brand": "#0096d6", "icon": "💻", "name": "株式会社日本HP", "logo_search": "HP Inc.",
+      "program": "POWER YOUR POTENTIAL（0.5day）",
+      "deadline": "11/6本エントリー締切", "selection": "選考直結型（早期選考の案内あり）",
+      "stats": [
+        {"label": "時間", "value": "5", "unit": "時間"},
+        {"label": "定員", "value": "約40", "unit": "名"},
+        {"label": "形式", "value": "対面", "unit": ""}
+      ],
+      "note": "type就活掲載（11/16回：プレエントリー10/30・本エントリー11/6締切／定員は職種ごと）",
+      "points": [
+        ["🧩", "課題に挑むグループワーク"],
+        ["🗣️", "社員への質問タイム＆FBあり"],
+        ["🎤", "最終発表に社員が総評"],
+        ["☕", "部門社員との座談会つき"]
+      ]
+    },
+    {
+      "wordmark": "SMTB", "tagline": "大手信託銀行",
+      "brand": "#00843d", "icon": "🏦", "name": "三井住友信託銀行株式会社", "logo_search": "三井住友信託銀行",
+      "program": "冬2Daysプログラム",
+      "deadline": "11/12 12時締切", "selection": "ES＋Webテスト→AI/録画面接",
+      "stats": [
+        {"label": "日数", "value": "2", "unit": "日"},
+        {"label": "形式", "value": "WEB", "unit": ""},
+        {"label": "開催", "value": "1/5", "unit": "〜"}
+      ],
+      "note": "type就活経由の期限（公式サイトは11/16 15時締切予定）・夏5Days/3Days参加者は対象外",
+      "points": [
+        ["🏦", "信託銀行の4事業を体感"],
+        ["🧩", "講義＋業務体感型ワーク"],
+        ["☕", "参加者限定の座談会も予定"],
+        ["💻", "WEB開催・文理不問"]
+      ]
+    }
+  ],
+  "detail": [
+    {
+      "wordmark": "TOSHIBA", "tagline": "＼技術職約300名・事務職約100名／",
+      "brand": "#e60012", "icon": "⚡", "name": "株式会社東芝", "logo_search": "東芝",
+      "program": "東芝のインターンシップ（技術職／事務職）",
+      "deadline": "11/4締切", "selection": "ES→書類選考→Web面接・適性検査",
+      "stats": [
+        {"label": "日数", "value": "5-10", "unit": "日"},
+        {"label": "定員", "value": "約400", "unit": "名"},
+        {"label": "開催", "value": "1-2", "unit": "月"}
+      ],
+      "note": "リクナビ掲載の東芝の募集情報より（定員は技術職約300名＋事務職約100名・報酬なし）",
+      "points": [
+        "インフラ・エネルギー・デバイスが舞台",
+        "研究開発や設計の実務テーマに挑戦",
+        "営業・経理・人事・法務の事務職も",
+        "2027年1〜2月・神奈川の事業所で実施",
+        "交通費は実費支給＋食事代の補助",
+        "片道1.5時間以上なら宿泊先を用意"
+      ],
+      "fit": [
+        "メーカーの実務を深く知りたい人",
+        "冬休みに5日以上空けられる人"
+      ],
+      "unfit": [
+        "1dayで手軽に済ませたい人",
+        "オンラインだけで参加したい人"
+      ]
+    }
+  ],
+  "caption": "【28卒】今からでも間に合う大手の冬インターンまとめ✍️\n\n締切が近い順👇\n・メルカリ（Software Engineer Internship・2〜3ヶ月）10/31 23:59 ※開発経験が必要\n・東芝（技術職／事務職・5〜10日間）11/4\n・日本HP（POWER YOUR POTENTIAL・0.5day）本エントリー11/6 ※プレエントリーは10/30まで\n・三井住友信託銀行（冬2Daysプログラム・WEB）11/12 12時\n\n東芝は技術職約300名・事務職約100名と大きめの募集。ESのあとWeb面接や適性検査もあるから、早めに準備しよう。保存して締切チェックに使ってね📌\n\n書類選考なしの特別推薦ルートで本選考を進めたい人は、プロフィールのリンクから無料で登録できるよ📩\n\n※締切・日程・内容は各社の募集ページ（2026/10/22時点）より。三井住友信託銀行の締切はtype就活経由のもの（公式サイトは11/16 15時締切予定）。日本HPは開催回によって締切が異なります。締切・内容は変更の可能性あり。応募前に各社の公式ページ・マイページを確認してね\n\n#PR #28卒 #就活 #インターン #冬インターン #仕事体験 #就活生 #就活情報 #大学生",
+  "sources": [
+    ["東芝 インターンシップ（技術職）内容・日程・定員・選考・締切・待遇", "https://job.rikunabi.com/job_descriptions/b58debcdb944e362/"],
+    ["東芝 インターンシップ（事務職）内容・日程・定員・選考・締切・待遇", "https://job.rikunabi.com/job_descriptions/ca891c9d9fc92324/"],
+    ["メルカリ Software Engineer Internship 期間・稼働・選考・締切", "https://apply.workable.com/mercari/jobs/view/EC5A1078C4"],
+    ["日本HP POWER YOUR POTENTIAL 内容・時間・定員・締切", "https://typeshukatsu.jp/company/1732/recruitment/653/"],
+    ["三井住友信託銀行 冬2Daysプログラム（type就活）締切・選考", "https://typeshukatsu.jp/company/1380/recruitment/788/"],
+    ["三井住友信託銀行 冬2Daysプログラム（公式）日程・選考・締切", "https://www.smtb.jp/recruit/new-graduate/internship"]
+  ]
+}
