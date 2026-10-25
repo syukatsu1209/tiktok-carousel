@@ -1,0 +1,109 @@
+{
+  "post_id": "2026-10-26",
+  "research_row": 2,
+  "pages": 6,
+  "layout": "auto",
+  "cta": true,
+  "affiliate_url": "https://careerpark.jp/employ/event/4866/lps/4800",
+  "covers": [
+    {"bg": "night", "blocks": [
+      {"lines": ["28卒就活✍️"]},
+      {"lines": ["金融志望は必見‼️", "11月締切の冬インターン👉"]}
+    ]},
+    {"bg": "day", "blocks": [
+      {"lines": ["受けるなら絶対ここ‼️", "国際協力銀行（JBIC）"]},
+      {"lines": ["11/30締切"]}
+    ]}
+  ],
+  "companies": [
+    {
+      "wordmark": "KAMPO", "tagline": "生命保険大手", "brand": "#d7000f", "icon": "📊",
+      "name": "株式会社かんぽ生命保険", "logo_search": "かんぽ生命保険",
+      "program": "かんぽ2days仕事体験（アクチュアリー・クオンツ）",
+      "deadline": "ES 11/6 12時締切",
+      "selection": "ES→Web適性検査",
+      "stats": [
+        {"label": "期間", "value": "2", "unit": "日"},
+        {"label": "定員", "value": "各40", "unit": "名程度"},
+        {"label": "開催", "value": "12", "unit": "月"}
+      ],
+      "note": "理系ナビ掲載の募集要項より・適性検査は11/11 23:59まで・全学年対象・報酬なし・遠方者に交通費一部支給・デジタル/資産運用コースは12/4締切",
+      "points": [
+        ["📐", "アクチュアリー業務を体験"],
+        ["📈", "投資戦略・リスク管理を体験"],
+        ["🏢", "大手町の本社で対面開催"],
+        ["🎓", "大学生・院生なら全学年OK"]
+      ]
+    },
+    {
+      "wordmark": "DBJ", "tagline": "政府系金融機関", "brand": "#004ea2", "icon": "🏦",
+      "name": "株式会社日本政策投資銀行", "logo_search": "日本政策投資銀行",
+      "program": "DBJ 1DAY WINTER WORKSHOP（総合職）",
+      "deadline": "11/18 12時締切（12月回）",
+      "selection": "ES・動画→Web適性検査",
+      "stats": [
+        {"label": "日程", "value": "4", "unit": "回"},
+        {"label": "形式", "value": "Web", "unit": "開催"},
+        {"label": "開催", "value": "12-1", "unit": "月"}
+      ],
+      "note": "外資就活ドットコム掲載の募集要項より・12/7、12/8の回の締切・1月回は2次締切・学年学部不問・業務職WORKSHOPと併願可・待遇の記載なし",
+      "points": [
+        ["🏗️", "DBJの実案件でグループワーク"],
+        ["💡", "金融知識のエッセンスを学ぶ"],
+        ["🗣️", "現場職員と座談会"],
+        ["💻", "自宅からオンライン参加"]
+      ]
+    },
+    {
+      "wordmark": "NOMURA", "tagline": "証券大手", "brand": "#c8102e", "icon": "💹",
+      "name": "野村證券株式会社", "logo_search": "野村證券",
+      "program": "ワークショップ：ウェルスマネジメント（冬3days）",
+      "deadline": "11/18 23:59締切",
+      "selection": "マイページから応募",
+      "stats": [
+        {"label": "期間", "value": "3", "unit": "日"},
+        {"label": "初日", "value": "12/22", "unit": "〜"},
+        {"label": "開催", "value": "12", "unit": "月"}
+      ],
+      "note": "外資就活ドットコム掲載の募集要項より・豊洲本社で対面・定員/選考/待遇の記載なし・IB部門の冬3daysは12/4締切",
+      "points": [
+        ["🏠", "相続・不動産の提案を学ぶ"],
+        ["🤝", "資産承継・M&Aまで扱う"],
+        ["💼", "資産運用の先のコンサル"],
+        ["🏢", "豊洲本社で対面開催"]
+      ]
+    }
+  ],
+  "detail": [
+    {
+      "wordmark": "JBIC", "tagline": "＼政府系金融の仕事を5日間で体感／", "brand": "#00205b", "icon": "🌏",
+      "name": "株式会社国際協力銀行", "logo_search": "国際協力銀行",
+      "program": "JBIC INTERNSHIP 2027 Winter | 5days",
+      "deadline": "11/30 10時締切",
+      "selection": "ES＋適性検査→選考",
+      "stats": [
+        {"label": "期間", "value": "5", "unit": "日"},
+        {"label": "日程", "value": "2", "unit": "回"},
+        {"label": "開催", "value": "2", "unit": "月"}
+      ],
+      "note": "外資就活ドットコム掲載の募集要項より・JBICの応募締切（同サイト経由は10/31締切）・東京のJBIC本店で開催予定・学年不問・待遇の記載なし",
+      "points": [
+        "JBICの組織・業務を学ぶ",
+        "セクター別の取組みでGW",
+        "グループでプレゼンに挑戦",
+        "職員との交流会あり",
+        "東京・JBIC本店で開催予定",
+        "ESと適性検査の両方が必要"
+      ],
+      "fit": ["国際ビジネスに興味がある人", "2月に5日間通える人"],
+      "unfit": ["オンラインで参加したい人", "日程が合わない人"]
+    }
+  ],
+  "caption": "【28卒】金融志望なら見逃せない！11月締切の冬インターンまとめ✍️\n\n締切が近い順👇\n・かんぽ生命（2days仕事体験・アクチュアリー/クオンツ）ES 11/6 12時 ※適性検査は11/11まで\n・日本政策投資銀行（DBJ 1DAY WINTER WORKSHOP）11/18 12時 ※12月回の締切・オンライン開催\n・野村證券（ウェルスマネジメント冬3days）11/18 23:59 ※12/22〜24・豊洲本社\n・国際協力銀行（JBIC INTERNSHIP 2027 Winter・5days）11/30 10時 ※ESと適性検査の両方が必要\n\nJBICは政府系金融の仕事をグループワークとプレゼンで体感できる5日間。かんぽ生命は11/6と一番早いから急いでね！保存して締切チェックに使ってね📌\n\n書類選考なしの特別推薦ルートで本選考を進めたい人は、プロフィールのリンクから無料で登録できるよ📩\n\n※締切・日程・内容は各社の募集要項・就活サイト掲載情報（2026/10/26時点）より。締切・内容は変更の可能性あり。応募前に各社の公式ページ・マイページを確認してね\n\n#PR #28卒 #就活 #インターン #冬インターン #金融 #就活生 #就活情報 #大学生",
+  "sources": [
+    ["かんぽ生命 かんぽ2days仕事体験（アクチュアリー・クオンツ）-winter- 日程・定員・締切・待遇", "https://rikeinavi.com/company/ea080c87dc87af3323965a04c8c561ad?tab=intern"],
+    ["日本政策投資銀行 DBJ 1DAY WINTER WORKSHOP 日程・選考・締切", "https://gaishishukatsu.com/recruiting_info/view/15227"],
+    ["野村證券 ワークショップ：ウェルスマネジメント（冬3days）日程・会場・締切", "https://gaishishukatsu.com/recruiting_info/view/15135"],
+    ["国際協力銀行 JBIC INTERNSHIP 2027 Winter 日程・会場・選考・締切", "https://gaishishukatsu.com/recruiting_info/view/15279"]
+  ]
+}
