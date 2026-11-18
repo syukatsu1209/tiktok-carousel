@@ -1,0 +1,17 @@
+{
+  "post_id": "2026-11-19",
+  "pages": 6,
+  "urls": [
+    "https://syukatsu1209.github.io/tiktok-carousel/media/2026-11-19/01.jpg",
+    "https://syukatsu1209.github.io/tiktok-carousel/media/2026-11-19/02.jpg",
+    "https://syukatsu1209.github.io/tiktok-carousel/media/2026-11-19/03.jpg",
+    "https://syukatsu1209.github.io/tiktok-carousel/media/2026-11-19/04.jpg",
+    "https://syukatsu1209.github.io/tiktok-carousel/media/2026-11-19/05.jpg",
+    "https://syukatsu1209.github.io/tiktok-carousel/media/2026-11-19/06.jpg"
+  ],
+  "sent_at": "2026-11-18 21:57:42",
+  "publish_id": "p_inbox_url~v2.7709633778763597842",
+  "tiktok_status": "FAILED",
+  "fail_reason": "photo_pull_failed",
+  "result": "check"
+}
